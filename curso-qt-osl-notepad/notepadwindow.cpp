@@ -105,7 +105,7 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     //Conectamos las acciones de los menús con nuestros slots
     connect(actArchivoAbrir_,       SIGNAL(triggered()),        this,          SLOT(alAbrir()));
     connect(actArchivoGuardar_,     SIGNAL(triggered()),        this,          SLOT(alGuardar()));
-    connect(actArchivoSalir_,       SIGNAL(triggered()),        this,          SLOT(close()));
+    connect(actArchivoSalir_,       SIGNAL(triggered()),        this,          SLOT(alCerrar()));
     connect(actEditarCopiar_,       SIGNAL(triggered()),        txtEditor_,    SLOT(copy()));
     connect(actEditarPegar_,        SIGNAL(triggered()),        txtEditor_,    SLOT(paste()));
     connect(actEditarDeshacer_,     SIGNAL(triggered()),        txtEditor_,    SLOT(undo()));
@@ -134,6 +134,14 @@ NotepadWindow::~NotepadWindow()
     actFormatoFuente_->deleteLater();
     mnuFormato_->deleteLater();
     txtEditor_->deleteLater();
+}
+
+void NotepadWindow::alCerrar()
+{
+    QMessageBox::StandardButton pressed;
+    pressed = QMessageBox::question(this, tr("Salir"), tr("¿Estás seguro que deseas salir?"));
+    if (pressed == QMessageBox::Yes)
+        close();
 }
 
 void NotepadWindow::alAbrir()

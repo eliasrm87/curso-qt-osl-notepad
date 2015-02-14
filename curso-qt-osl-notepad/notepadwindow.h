@@ -23,6 +23,7 @@ public:
     ~NotepadWindow();
 
 private slots:
+    void alCerrar();
     void alAbrir();
     void alGuardar();
     void alFuente();
