@@ -14,7 +14,9 @@
 #include <QKeySequence> //Atajos de teclado
 #include <QMessageBox>
 #include <QToolBar>
+#include <QWidget>
 #include <QDialogButtonBox>
+ #include <QLayout>
 class NotepadWindow : public QMainWindow
 {
     Q_OBJECT //Directica al precompilador para indicar que hay funciones de Qt
@@ -34,6 +36,8 @@ private slots:
 
 
 private:
+
+
 
     QMenuBar*       mainMenu_; //Menu principal
     QMenu*          mnuArchivo_;
@@ -58,7 +62,6 @@ private:
     QAction*        actAyuda_;
     QToolBar*       funciones_;
 
-    QMessageBox*        diaexit_;
-};
+ };
 
 #endif // NOTEPADWINDOW_H

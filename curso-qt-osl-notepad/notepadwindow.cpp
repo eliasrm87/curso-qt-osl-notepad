@@ -1,6 +1,5 @@
 #include "notepadwindow.h"
-#include <QDialogButtonBox>
-#include <QPushButton>
+
 NotepadWindow::NotepadWindow(QWidget *parent)
     : QMainWindow(parent) //Invocamos al constructor padre
 {
@@ -13,7 +12,6 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     //Inicializamos los menús
     mainMenu_ = new QMenuBar(this);
     funciones_ = new QToolBar(this);
-    diaexit_ = new QMessageBox(this); //Dialogo que aparece al salir
 
     mnuArchivo_ = new QMenu(tr("&Archivo"), this); //Archivo y el padre que es el mismo
     mainMenu_->addMenu(mnuArchivo_); //Añadimos un menú
@@ -91,11 +89,11 @@ NotepadWindow::NotepadWindow(QWidget *parent)
      connect(actEditarCortar_, SIGNAL(triggered()), this, SLOT(cut()));
      connect(actEditarDeshacer_, SIGNAL(triggered()), this, SLOT(undo()));
      connect(actEditarRehacer_, SIGNAL(triggered()), this, SLOT(redo()));
-     connect(actArchivoSalir_, SIGNAL(triggered()), this, SLOT(salir()));
+     connect(actArchivoSalir_, SIGNAL(triggered()), this, SLOT (salir()));
      connect(actAyuda_, SIGNAL(triggered()), this, SLOT(ayuda()));
 
-     connect(diaexit_, SIGNAL(accepted()), this, SLOT(exit()));
-     //triggered (señal que emite cuando es pulsada)
+
+    //triggered (señal que emite cuando es pulsada)
 
     //Agregamos el editor de texto a la ventana
     this->setCentralWidget(txtEditor_); //En esta ventana el widget central es el txtEditor
@@ -122,7 +120,7 @@ NotepadWindow::~NotepadWindow()
     actAyuda_->deleteLater();
 
     messAyuda_->deleteLater();
-    diaexit_->deleteLater();
+
 }
 
 void NotepadWindow::alAbrir()
@@ -191,7 +189,21 @@ void NotepadWindow::ayuda()
 
 void NotepadWindow::salir(){
 
+    QMessageBox* adv = new QMessageBox(this);
+    adv->setWindowTitle ("Atención");
+    adv->setText("¿Esta seguro que desea salir sin guardar?");
+    QPushButton* salir = adv->addButton("Guardar y Salir",QMessageBox::AcceptRole);
+    QPushButton* save_exit = adv->addButton ("Salir",QMessageBox::RejectRole);
 
-}
 
+    connect(adv, &QMessageBox::accepted, [&](){this->close();});
+    connect(adv, &QMessageBox::rejected, [&] (){
+
+           this->alGuardar ();
+            this->close();
+
+    });
+
+    adv->open();
+ }
 //txtEditor_->font() nos devuelve la fuente que hay ahora mismo en el txtEditor_
