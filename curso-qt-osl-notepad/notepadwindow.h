@@ -37,7 +37,7 @@ private:
     QAction*        actEditarCopiar_;
     QAction*        actEditarPegar_;
     QPlainTextEdit* txtEditor_;
-    QClipboard *    portapapeles_;
+    QClipboard*     portapapeles_;
 
 };
 

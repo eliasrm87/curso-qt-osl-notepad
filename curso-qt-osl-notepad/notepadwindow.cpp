@@ -59,7 +59,7 @@ NotepadWindow::NotepadWindow(QWidget *parent)
 
 NotepadWindow::~NotepadWindow()
 {
-    //Liberamos los recursos
+    //Liberamos los recursos (no necesario, sólo cuando no tienen padre)
     mainMenu_->deleteLater();
     actArchivoAbrir_->deleteLater();
     actArchivoGuardar_->deleteLater();
@@ -104,7 +104,13 @@ void NotepadWindow::alGuardar()
     if (nombreArchivo != "") {
         //Intentamos abrir el archivo
         QFile archivo;
-        archivo.setFileName(nombreArchivo + ".txt");
+
+        if (!nombreArchivo.endsWith(".txt", Qt::CaseInsensitive)) {
+            //nombreArchivo.chop(4);
+            nombreArchivo += ".txt";
+        }
+
+        archivo.setFileName(nombreArchivo/* + ".txt"*/);
         if (archivo.open(QFile::WriteOnly | QFile::Truncate)) {
             //Si se pudo abrir el archivo, escribimos el contenido del editor
             archivo.write(txtEditor_->toPlainText().toUtf8());
