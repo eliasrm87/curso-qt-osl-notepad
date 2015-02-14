@@ -65,17 +65,28 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     mnuArchivo_->addAction(actArchivoSalir_);
 
     messAyuda_ = new QMessageBox(this); //Nueva ventana
-     actAyuda_ = new QAction(tr("&Ayuda"),this);
-     actAyuda_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_H));
+    actAyuda_ = new QAction(tr("&Ayuda"),this);
+    actAyuda_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_H));
+    mainMenu_->addAction(actAyuda_);
 
-     mainMenu_->addAction(actAyuda_);
+    actBold_ = new QAction(tr("&Negrita"),this);
+    actBold_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_B));
+    mnuFormato_->addAction(actBold_);
+    actItalics_ = new QAction(tr("&Cursiva"),this);
+    actItalics_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_I));
+    mnuFormato_->addAction(actItalics_);
+    actUnderline_ = new QAction(tr("&Subrayado"),this);
+    actUnderline_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
+    mnuFormato_->addAction(actUnderline_);
+
 
 
     //Agregamos la barra de menú a la ventana
     this->setMenuBar(mainMenu_);
     this->addToolBar(funciones_);
     //Inicializamos el editor de texto
-    txtEditor_ = new QPlainTextEdit(this);
+    txtEditor_ = new QTextEdit(this);
+    txtEditor_->setAcceptRichText(true);
 
     //Conectamos las acciones de los menús con nuestros slots
     connect(actArchivoAbrir_,   SIGNAL(triggered()), this,          SLOT(alAbrir()));
@@ -91,7 +102,9 @@ NotepadWindow::NotepadWindow(QWidget *parent)
      connect(actEditarRehacer_, SIGNAL(triggered()), this, SLOT(redo()));
      connect(actArchivoSalir_, SIGNAL(triggered()), this, SLOT (salir()));
      connect(actAyuda_, SIGNAL(triggered()), this, SLOT(ayuda()));
-
+     connect(actBold_,SIGNAL(triggered()),this,SLOT(negrita()));
+     connect(actItalics_,SIGNAL(triggered()),this,SLOT(cursiva()));
+     connect(actUnderline_,SIGNAL(triggered()),this,SLOT(subrayar()));
 
     //triggered (señal que emite cuando es pulsada)
 
@@ -205,5 +218,28 @@ void NotepadWindow::salir(){
     });
 
     adv->open();
- }
+}
+
+void NotepadWindow::negrita()
+{
+    QTextCharFormat fmt;
+    QTextCursor cursor = txtEditor_->textCursor();
+
+      if (!cursor.hasSelection())
+          cursor.select(QTextCursor::WordUnderCursor);
+
+      if( cursor.charFormat().fontWeight() == QFont::Bold  )
+          fmt.setFontWeight( QFont::Normal);
+      else
+      {
+         fmt.setFontWeight( QFont::Bold);
+      }
+
+
+      cursor.mergeCharFormat( fmt );
+
+}
+
+
+
 //txtEditor_->font() nos devuelve la fuente que hay ahora mismo en el txtEditor_

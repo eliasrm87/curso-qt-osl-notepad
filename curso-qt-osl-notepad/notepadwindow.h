@@ -6,7 +6,7 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
-#include <QPlainTextEdit>
+#include <QTextEdit>
 #include <QFileDialog> //Abrir y guardar (ventana)
 #include <QFile> //Abrir, Leer y escribir y cerrar ficheros
 #include <QFontDialog> //elegir la fuente
@@ -16,7 +16,8 @@
 #include <QToolBar>
 #include <QWidget>
 #include <QDialogButtonBox>
- #include <QLayout>
+#include <QColor>
+
 class NotepadWindow : public QMainWindow
 {
     Q_OBJECT //Directica al precompilador para indicar que hay funciones de Qt
@@ -33,6 +34,9 @@ private slots:
     void alFuente();
     void ayuda();
     void salir();
+    void negrita();
+//    void cursiva();
+//    void subrayar();
 
 
 private:
@@ -48,7 +52,7 @@ private:
     QMenu*          mnuEditar_;
     QAction*        actEditarCopiar_;
     QAction*        actEditarPegar_;
-    QPlainTextEdit* txtEditor_; //Cuadro de texto
+    QTextEdit*      txtEditor_; //Cuadro de texto
     QClipboard *    portapapeles_; //Portapapeles
 
 
@@ -61,6 +65,10 @@ private:
     QMessageBox*    messAyuda_;
     QAction*        actAyuda_;
     QToolBar*       funciones_;
+
+    QAction*        actBold_;
+    QAction*        actItalics_;
+    QAction*        actUnderline_;
 
  };
 
