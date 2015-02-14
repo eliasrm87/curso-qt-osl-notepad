@@ -34,8 +34,10 @@ private slots:
     void alSubrayado(bool subrayado);
 
     void actualizarCursor();
+    void actualizarTitulo(QString titulo);
 
 private:
+    QString         fileName_;
     QMenuBar*       mainMenu_;
     QMenu*          mnuArchivo_;
     QAction*        actArchivoAbrir_;

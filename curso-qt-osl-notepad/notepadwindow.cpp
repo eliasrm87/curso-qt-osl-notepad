@@ -3,11 +3,13 @@
 NotepadWindow::NotepadWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    fileName_ = "";
+
     //Establecemos el tamaño inicial de la ventana
     this->setGeometry(30, 30, 800, 600);
 
     //Establecemos el título de la ventana
-    this->setWindowTitle(tr("Editor de texto"));
+    this->setWindowTitle(tr("Editor de texto - <unnamed>"));
 
     //Inicializamos los menús
     mainMenu_ = new QMenuBar(this);
@@ -161,6 +163,7 @@ void NotepadWindow::alAbrir()
             txtEditor_->setPlainText(archivo.readAll());
             //Se cierra el fichero
             archivo.close();
+            actualizarTitulo(nombreArchivo);
         }
     }
 }
@@ -188,6 +191,7 @@ void NotepadWindow::alGuardar()
             archivo.write(txtEditor_->toPlainText().toUtf8());
             //Se cierra el fichero
             archivo.close();
+            actualizarTitulo(nombreArchivo);
         }
     }
 }
@@ -238,3 +242,10 @@ void NotepadWindow::actualizarCursor()
     actFormatoNegrita_->setChecked(font.bold());
     actFormatoSubrayado_->setChecked(font.underline());
 }
+
+void NotepadWindow::actualizarTitulo(QString titulo)
+{
+    fileName_ = titulo;
+    setWindowTitle("Editor de texto - " + titulo);
+}
+
