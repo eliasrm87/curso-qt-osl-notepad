@@ -3,13 +3,13 @@
 NotepadWindow::NotepadWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    fileName_ = "";
+    fileName_ = "<unnamed>";
 
     //Establecemos el tamaño inicial de la ventana
     this->setGeometry(30, 30, 800, 600);
 
     //Establecemos el título de la ventana
-    this->setWindowTitle(tr("Editor de texto - <unnamed>"));
+    actualizarTitulo(fileName_, true);
 
     //Inicializamos los menús
     mainMenu_ = new QMenuBar(this);
@@ -118,6 +118,7 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     connect(actFormatoSubrayado_,   SIGNAL(toggled(bool)),      this,          SLOT(alSubrayado(bool)));
     connect(actAyudaAcercaDe_,      SIGNAL(triggered()),        this,          SLOT(alAcercaDe()));
     connect(txtEditor_,             SIGNAL(cursorPositionChanged()), this, SLOT(actualizarCursor()));
+    connect(txtEditor_,             SIGNAL(textChanged()),this,                SLOT(alModificarTexto()));
 
     //Agregamos el editor de texto a la ventana
     this->setCentralWidget(txtEditor_);
@@ -163,7 +164,7 @@ void NotepadWindow::alAbrir()
             txtEditor_->setPlainText(archivo.readAll());
             //Se cierra el fichero
             archivo.close();
-            actualizarTitulo(nombreArchivo);
+            actualizarTitulo(nombreArchivo, false);
         }
     }
 }
@@ -191,7 +192,7 @@ void NotepadWindow::alGuardar()
             archivo.write(txtEditor_->toPlainText().toUtf8());
             //Se cierra el fichero
             archivo.close();
-            actualizarTitulo(nombreArchivo);
+            actualizarTitulo(nombreArchivo, false);
         }
     }
 }
@@ -235,6 +236,11 @@ void NotepadWindow::alSubrayado(bool subrayado)
     txtEditor_->setCurrentFont(font);
 }
 
+void NotepadWindow::alModificarTexto()
+{
+    actualizarTitulo(fileName_, true);
+}
+
 void NotepadWindow::actualizarCursor()
 {
     QFont font = txtEditor_->currentFont();
@@ -243,9 +249,9 @@ void NotepadWindow::actualizarCursor()
     actFormatoSubrayado_->setChecked(font.underline());
 }
 
-void NotepadWindow::actualizarTitulo(QString titulo)
+void NotepadWindow::actualizarTitulo(QString titulo, bool modificado)
 {
     fileName_ = titulo;
-    setWindowTitle("Editor de texto - " + titulo);
+    setWindowTitle("Editor de texto - " + titulo + (modificado? "*" : ""));
 }
 

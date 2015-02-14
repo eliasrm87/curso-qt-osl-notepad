@@ -32,9 +32,10 @@ private slots:
     void alNegrita(bool negrita);
     void alCursiva(bool cursiva);
     void alSubrayado(bool subrayado);
+    void alModificarTexto();
 
     void actualizarCursor();
-    void actualizarTitulo(QString titulo);
+    void actualizarTitulo(QString titulo, bool modificado);
 
 private:
     QString         fileName_;
