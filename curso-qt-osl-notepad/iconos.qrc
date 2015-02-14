@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/iconos">
+        <file>iconos/exit.png</file>
+        <file>iconos/cut.png</file>
+        <file>iconos/copy.png</file>
+        <file>iconos/write.png</file>
+        <file>iconos/open.png</file>
+        <file>iconos/deshacer.png</file>
+        <file>iconos/rehacer.png</file>
+        <file>iconos/paste.png</file>
+        <file>iconos/about.png</file>
+        <file>iconos/fuente.png</file>
+    </qresource>
+</RCC>
