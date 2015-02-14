@@ -109,7 +109,7 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     //Conectamos las acciones de los menús con nuestros slots
     connect(actArchivoAbrir_,       SIGNAL(triggered()),        this,          SLOT(alAbrir()));
     connect(actArchivoGuardar_,     SIGNAL(triggered()),        this,          SLOT(alGuardar()));
-    connect(actArchivoSalir_,       SIGNAL(triggered()),        this,          SLOT(alCerrar()));
+    connect(actArchivoSalir_,       SIGNAL(triggered()),        this,          SLOT(close()));
     connect(actEditarCopiar_,       SIGNAL(triggered()),        txtEditor_,    SLOT(copy()));
     connect(actEditarPegar_,        SIGNAL(triggered()),        txtEditor_,    SLOT(paste()));
     connect(actEditarDeshacer_,     SIGNAL(triggered()),        txtEditor_,    SLOT(undo()));
@@ -120,7 +120,7 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     connect(actFormatoSubrayado_,   SIGNAL(toggled(bool)),      this,          SLOT(alSubrayado(bool)));
     connect(actAyudaAcercaDe_,      SIGNAL(triggered()),        this,          SLOT(alAcercaDe()));
     connect(txtEditor_,             SIGNAL(cursorPositionChanged()), this, SLOT(actualizarCursor()));
-    connect(txtEditor_,             SIGNAL(textChanged()),this,                SLOT(alModificarTexto()));
+    connect(txtEditor_,             SIGNAL(textChanged()),      this,          SLOT(alModificarTexto()));
 
     //Agregamos el editor de texto a la ventana
     this->setCentralWidget(txtEditor_);
@@ -141,12 +141,19 @@ NotepadWindow::~NotepadWindow()
     txtEditor_->deleteLater();
 }
 
-void NotepadWindow::alCerrar()
+void NotepadWindow::closeEvent(QCloseEvent *event)
+{
+    if (alCerrar())
+        event->accept();
+    else
+        event->ignore();
+}
+
+bool NotepadWindow::alCerrar()
 {
     QMessageBox::StandardButton pressed;
     pressed = QMessageBox::question(this, tr("Salir"), tr("¿Estás seguro que deseas salir?"));
-    if (pressed == QMessageBox::Yes)
-        close();
+    return pressed == QMessageBox::Yes;
 }
 
 void NotepadWindow::alAbrir()

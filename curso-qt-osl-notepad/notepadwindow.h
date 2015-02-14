@@ -13,6 +13,7 @@
 #include <QKeySequence>
 #include <QMessageBox>
 #include <QToolBar>
+#include <QCloseEvent>
 
 class NotepadWindow : public QMainWindow
 {
@@ -22,8 +23,12 @@ public:
     NotepadWindow(QWidget *parent = 0);
     ~NotepadWindow();
 
+
+protected:
+     void closeEvent(QCloseEvent *event);
+
 private slots:
-    void alCerrar();
+    bool alCerrar();
     void alAbrir();
     void alGuardar();
     void alFuente();
