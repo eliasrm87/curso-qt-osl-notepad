@@ -7,7 +7,7 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     this->setGeometry(30, 30, 800, 600);
 
     //Establecemos el título de la ventana
-    this->setWindowTitle(tr("Super editor de texto"));
+    this->setWindowTitle(tr("Notepad--"));
 
     //Inicializamos los menús
     mainMenu_ = new QMenuBar(this);
@@ -23,6 +23,11 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     actArchivoGuardar_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
     mnuArchivo_->addAction(actArchivoGuardar_);
 
+    actSalir_ = new QAction(tr("&Salir"), this);
+    actSalir_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_E));
+    mnuArchivo_->addAction(actSalir_);
+
+    //MENU EDITAR
     mnuEditar_ = new QMenu(tr("&Editar"), this);
     mainMenu_->addMenu(mnuEditar_);
 
@@ -34,11 +39,22 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     actEditarPegar_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_V));
     mnuEditar_->addAction(actEditarPegar_);
 
+    actEditarDeshacer_ = new QAction(tr("&Deshacer"), this);
+    actEditarDeshacer_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Z));
+    mnuEditar_->addAction(actEditarDeshacer_);
+
+    //MENU FORMATO
     mnuFormato_ = new QMenu(tr("&Formato"), this);
     mainMenu_->addMenu(mnuFormato_);
 
     actFormatoFuente_ = new QAction(tr("&Fuente"), this);
     mnuFormato_->addAction(actFormatoFuente_);
+
+    mnuHelp_ = new QMenu(tr("&Ayuda"), this);
+    mainMenu_->addMenu(mnuHelp_);
+
+    actAbout_ = new QAction(tr("&Acerca de ..."), this);
+    mnuHelp_->addAction(actAbout_);
 
     //Agregamos la barra de menú a la ventana
     this->setMenuBar(mainMenu_);
@@ -52,6 +68,35 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     connect(actEditarCopiar_,   SIGNAL(triggered()), txtEditor_,    SLOT(copy()));
     connect(actEditarPegar_,    SIGNAL(triggered()), txtEditor_,    SLOT(paste()));
     connect(actFormatoFuente_,  SIGNAL(triggered()), this,          SLOT(alFuente()));
+    connect(actAbout_,  SIGNAL(triggered()), this,          SLOT(alAbout()));
+    connect(actEditarDeshacer_, SIGNAL(triggered()), txtEditor_, SLOT(undo()));
+    connect(actSalir_, SIGNAL(triggered()), this, SLOT(alSalir()));
+
+    //Toolbar con imagenes
+
+    mainToolbar_ = new QToolBar(this);
+
+    mainToolbar_->setAllowedAreas(Qt::TopToolBarArea); //fijo
+    mainToolbar_->setMovable(false);
+
+    mainToolbar_->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+
+    //imagen a la acción
+    actArchivoAbrir_->setIcon(QIcon(":/actions/resource/abrir.ico"));
+    actArchivoGuardar_->setIcon(QIcon(":/actions/resource/guardar.ico"));
+    actEditarDeshacer_->setIcon(QIcon(":/actions/resource/atras.ico"));
+
+
+    actArchivoAbrir_->setIconVisibleInMenu(false);
+
+
+    //añadiendo lo que se va a mostrar
+    mainToolbar_->addAction(actArchivoAbrir_);
+    mainToolbar_->addAction(actArchivoGuardar_);
+    mainToolbar_->addAction(actEditarDeshacer_);
+
+    //añadido a la barra
+    addToolBar(mainToolbar_);
 
     //Agregamos el editor de texto a la ventana
     this->setCentralWidget(txtEditor_);
@@ -69,7 +114,9 @@ NotepadWindow::~NotepadWindow()
     mnuEditar_->deleteLater();
     actFormatoFuente_->deleteLater();
     mnuFormato_->deleteLater();
+    mnuHelp_->deleteLater();
     txtEditor_->deleteLater();
+
 }
 
 void NotepadWindow::alAbrir()
@@ -104,7 +151,9 @@ void NotepadWindow::alGuardar()
     if (nombreArchivo != "") {
         //Intentamos abrir el archivo
         QFile archivo;
-        archivo.setFileName(nombreArchivo + ".txt");
+        if(!nombreArchivo.endsWith(".txt")){
+          nombreArchivo += ".txt";
+        }
         if (archivo.open(QFile::WriteOnly | QFile::Truncate)) {
             //Si se pudo abrir el archivo, escribimos el contenido del editor
             archivo.write(txtEditor_->toPlainText().toUtf8());
@@ -122,4 +171,26 @@ void NotepadWindow::alFuente()
         // Si el usuario hizo click en OK, se establece la fuente seleccionada
         txtEditor_->setFont(font);
     }
+}
+
+void NotepadWindow::alAbout()
+{
+    QMessageBox about;
+    about.setWindowTitle(tr("About"));
+    about.setText(tr("Notepad -- de Haniel Martín"));
+    about.addButton(tr("Cerrar"), QMessageBox::RejectRole);
+    about.exec();
+}
+
+void NotepadWindow::alSalir()
+{
+    QMessageBox sure;
+    sure.setWindowTitle(tr("Aviso"));
+    sure.setText(tr("¿Está seguro que desea salir?"));
+    sure.setStandardButtons(QMessageBox::Ok | QMessageBox::Close);
+
+    int ret = sure.exec();
+
+    if (ret == QMessageBox::Ok)
+        close(); //mas limpio que exit(0);
 }

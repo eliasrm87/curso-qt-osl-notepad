@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/actions">
+        <file>resource/abrir.ico</file>
+        <file>resource/atras.ico</file>
+        <file>resource/borrar.ico</file>
+        <file>resource/buscar.ico</file>
+        <file>resource/copiar.ico</file>
+        <file>resource/cortar.ico</file>
+        <file>resource/fuentes.ico</file>
+        <file>resource/guardar.ico</file>
+        <file>resource/pegar.ico</file>
+        <file>resource/siguiente.ico</file>
+    </qresource>
+</RCC>
