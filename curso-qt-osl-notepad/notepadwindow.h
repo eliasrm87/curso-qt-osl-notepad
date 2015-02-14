@@ -2,6 +2,7 @@
 #define NOTEPADWINDOW_H
 
 #include <QMainWindow>
+#include <QDebug>
 //Incluimos librerias necesarias
 #include <QMenuBar>
 #include <QMenu>
@@ -12,6 +13,9 @@
 #include <QFontDialog>
 #include <QClipboard>
 #include <QKeySequence>
+#include <QMessageBox>
+#include <QDialog>
+#include <QToolBar>
 
 class NotepadWindow : public QMainWindow
 {
@@ -24,6 +28,8 @@ public:
 private slots:
     void alAbrir();
     void alGuardar();
+    void alSalir();
+    void alAcercade();
     void alFuente();
 
 private:
@@ -31,14 +37,21 @@ private:
     QMenu*          mnuArchivo_;
     QAction*        actArchivoAbrir_;
     QAction*        actArchivoGuardar_;
+    QAction*        actArchivoSalir_;
     QMenu*          mnuFormato_;
     QAction*        actFormatoFuente_;
     QMenu*          mnuEditar_;
+    QAction*        actEditarCortar_;
     QAction*        actEditarCopiar_;
     QAction*        actEditarPegar_;
-    QPlainTextEdit* txtEditor_;
-    QClipboard *    portapapeles_;
-
+    QAction*        actEditarRehacer_;
+    QAction*        actEditarDeshacer_;
+    QMenu*          mnuAyuda_;
+    QAction*        actAyudaAcercade_;
+    QTextEdit*      txtEditor_;
+    // para acceder y modificar el contenido del clipboard directamente (no necesario)
+    // QClipboard *    portapapeles_;
+    QToolBar*       editToolBar_;
 };
 
 #endif // NOTEPADWINDOW_H
