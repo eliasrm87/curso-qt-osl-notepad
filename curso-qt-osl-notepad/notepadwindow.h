@@ -6,7 +6,7 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
-#include <QPlainTextEdit>
+#include <QTextEdit>
 #include <QFileDialog>
 #include <QFile>
 #include <QFontDialog>
@@ -28,6 +28,12 @@ private slots:
     void alFuente();
     void alAcercaDe();
 
+    void alNegrita(bool negrita);
+    void alCursiva(bool cursiva);
+    void alSubrayado(bool subrayado);
+
+    void actualizarCursor();
+
 private:
     QMenuBar*       mainMenu_;
     QMenu*          mnuArchivo_;
@@ -36,6 +42,9 @@ private:
     QAction*        actArchivoSalir_;
     QMenu*          mnuFormato_;
     QAction*        actFormatoFuente_;
+    QAction*        actFormatoNegrita_;
+    QAction*        actFormatoCursiva_;
+    QAction*        actFormatoSubrayado_;
     QMenu*          mnuEditar_;
     QAction*        actEditarCopiar_;
     QAction*        actEditarPegar_;
@@ -44,7 +53,7 @@ private:
     QAction*        actEditarRehacer_;
     QMenu*          mnuAyuda_;
     QAction*        actAyudaAcercaDe_;
-    QPlainTextEdit* txtEditor_;
+    QTextEdit*      txtEditor_;
 
 };
 

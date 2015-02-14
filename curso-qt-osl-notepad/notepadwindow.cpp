@@ -54,12 +54,26 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     actEditarRehacer_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Y));
     mnuEditar_->addAction(actEditarRehacer_);
 
+    /* FORMATO */
     mnuFormato_ = new QMenu(tr("&Formato"), this);
     mainMenu_->addMenu(mnuFormato_);
 
     actFormatoFuente_ = new QAction(tr("&Fuente"), this);
     mnuFormato_->addAction(actFormatoFuente_);
 
+    actFormatoNegrita_ = new QAction(tr("&Negrita"), this);
+    actFormatoNegrita_->setCheckable(true);
+    mnuFormato_->addAction(actFormatoNegrita_);
+
+    actFormatoCursiva_ = new QAction(tr("&Cursiva"), this);
+    actFormatoCursiva_->setCheckable(true);
+    mnuFormato_->addAction(actFormatoCursiva_);
+
+    actFormatoSubrayado_ = new QAction(tr("&Subrayado"), this);
+    actFormatoSubrayado_->setCheckable(true);
+    mnuFormato_->addAction(actFormatoSubrayado_);
+
+    /* AYUDA */
     mnuAyuda_ = new QMenu(tr("&Ayuda"), this);
     mainMenu_->addMenu(mnuAyuda_);
 
@@ -80,20 +94,28 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     toolbar->addAction(actEditarCortar_);
     toolbar->addAction(actEditarCopiar_);
     toolbar->addAction(actEditarPegar_);
+    toolbar->addSeparator();
+    toolbar->addAction(actFormatoCursiva_);
+    toolbar->addAction(actFormatoNegrita_);
+    toolbar->addAction(actFormatoSubrayado_);
 
     //Inicializamos el editor de texto
-    txtEditor_ = new QPlainTextEdit(this);
+    txtEditor_ = new QTextEdit(this);
 
     //Conectamos las acciones de los menús con nuestros slots
-    connect(actArchivoAbrir_,   SIGNAL(triggered()), this,          SLOT(alAbrir()));
-    connect(actArchivoGuardar_, SIGNAL(triggered()), this,          SLOT(alGuardar()));
-    connect(actArchivoSalir_,   SIGNAL(triggered()), this,          SLOT(close()));
-    connect(actEditarCopiar_,   SIGNAL(triggered()), txtEditor_,    SLOT(copy()));
-    connect(actEditarPegar_,    SIGNAL(triggered()), txtEditor_,    SLOT(paste()));
-    connect(actEditarDeshacer_, SIGNAL(triggered()), txtEditor_,    SLOT(undo()));
-    connect(actEditarRehacer_,  SIGNAL(triggered()), txtEditor_,    SLOT(redo()));
-    connect(actAyudaAcercaDe_,  SIGNAL(triggered()), this,          SLOT(alAcercaDe()));
-    connect(actFormatoFuente_,  SIGNAL(triggered()), this,          SLOT(alFuente()));
+    connect(actArchivoAbrir_,       SIGNAL(triggered()),        this,          SLOT(alAbrir()));
+    connect(actArchivoGuardar_,     SIGNAL(triggered()),        this,          SLOT(alGuardar()));
+    connect(actArchivoSalir_,       SIGNAL(triggered()),        this,          SLOT(close()));
+    connect(actEditarCopiar_,       SIGNAL(triggered()),        txtEditor_,    SLOT(copy()));
+    connect(actEditarPegar_,        SIGNAL(triggered()),        txtEditor_,    SLOT(paste()));
+    connect(actEditarDeshacer_,     SIGNAL(triggered()),        txtEditor_,    SLOT(undo()));
+    connect(actEditarRehacer_,      SIGNAL(triggered()),        txtEditor_,    SLOT(redo()));
+    connect(actFormatoFuente_,      SIGNAL(triggered()),        this,          SLOT(alFuente()));
+    connect(actFormatoCursiva_,     SIGNAL(toggled(bool)),      this,          SLOT(alCursiva(bool)));
+    connect(actFormatoNegrita_,     SIGNAL(toggled(bool)),      this,          SLOT(alNegrita(bool)));
+    connect(actFormatoSubrayado_,   SIGNAL(toggled(bool)),      this,          SLOT(alSubrayado(bool)));
+    connect(actAyudaAcercaDe_,      SIGNAL(triggered()),        this,          SLOT(alAcercaDe()));
+    connect(txtEditor_,             SIGNAL(cursorPositionChanged()), this, SLOT(actualizarCursor()));
 
     //Agregamos el editor de texto a la ventana
     this->setCentralWidget(txtEditor_);
@@ -168,7 +190,7 @@ void NotepadWindow::alFuente()
     QFont font = QFontDialog::getFont(&ok, txtEditor_->font(), this);
     if (ok) {
         // Si el usuario hizo click en OK, se establece la fuente seleccionada
-        txtEditor_->setFont(font);
+        txtEditor_->setCurrentFont(font);
     }
 }
 
@@ -178,4 +200,33 @@ void NotepadWindow::alAcercaDe()
                        tr("Acerca de..."),
                        tr("<b>Editor de texto</b><tr/>"
                           "Versión 1.0. Copyright ..... 2015"));
+}
+
+void NotepadWindow::alNegrita(bool negrita)
+{
+    QFont font = txtEditor_->currentFont();
+    font.setBold(negrita);
+    txtEditor_->setCurrentFont(font);
+}
+
+void NotepadWindow::alCursiva(bool cursiva)
+{
+    QFont font = txtEditor_->currentFont();
+    font.setItalic(cursiva);
+    txtEditor_->setCurrentFont(font);
+}
+
+void NotepadWindow::alSubrayado(bool subrayado)
+{
+    QFont font = txtEditor_->currentFont();
+    font.setUnderline(subrayado);
+    txtEditor_->setCurrentFont(font);
+}
+
+void NotepadWindow::actualizarCursor()
+{
+    QFont font = txtEditor_->currentFont();
+    actFormatoCursiva_->setChecked(font.italic());
+    actFormatoNegrita_->setChecked(font.bold());
+    actFormatoSubrayado_->setChecked(font.underline());
 }
