@@ -12,6 +12,7 @@
 #include <QFontDialog>
 #include <QKeySequence>
 #include <QMessageBox>
+#include <QToolBar>
 
 class NotepadWindow : public QMainWindow
 {

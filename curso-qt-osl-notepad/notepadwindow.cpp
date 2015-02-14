@@ -69,6 +69,18 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     //Agregamos la barra de menú a la ventana
     this->setMenuBar(mainMenu_);
 
+    // Creamos un toolbar con la funciones principales del programa
+    QToolBar* toolbar = new QToolBar(this);
+    toolbar->setMovable(false);
+    addToolBar(toolbar);
+
+    toolbar->addAction(actArchivoAbrir_);
+    toolbar->addAction(actArchivoGuardar_);
+    toolbar->addSeparator();
+    toolbar->addAction(actEditarCortar_);
+    toolbar->addAction(actEditarCopiar_);
+    toolbar->addAction(actEditarPegar_);
+
     //Inicializamos el editor de texto
     txtEditor_ = new QPlainTextEdit(this);
 
