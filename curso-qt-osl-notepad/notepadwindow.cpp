@@ -63,6 +63,8 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     actFormatoFuente_ = new QAction(tr("&Fuente"), this);
     mnuFormato_->addAction(actFormatoFuente_);
 
+    mnuFormato_->addSeparator();
+
     actFormatoNegrita_ = new QAction(tr("&Negrita"), this);
     actFormatoNegrita_->setCheckable(true);
     mnuFormato_->addAction(actFormatoNegrita_);
