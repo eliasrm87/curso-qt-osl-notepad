@@ -1,4 +1,5 @@
 #include "notepadwindow.h"
+#include <QWebView>
 
 NotepadWindow::NotepadWindow(QWidget *parent)
     : QMainWindow(parent) //Invocamos al constructor padre
@@ -88,6 +89,7 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     txtEditor_ = new QTextEdit(this);
     txtEditor_->setAcceptRichText(true);
 
+
     //Conectamos las acciones de los menús con nuestros slots
     connect(actArchivoAbrir_,   SIGNAL(triggered()), this,          SLOT(alAbrir()));
     connect(actArchivoGuardar_, SIGNAL(triggered()), this,          SLOT(alGuardar()));
@@ -97,9 +99,9 @@ NotepadWindow::NotepadWindow(QWidget *parent)
 
  //--------------------------------------------------------------------------------
 
-     connect(actEditarCortar_, SIGNAL(triggered()), this, SLOT(cut()));
-     connect(actEditarDeshacer_, SIGNAL(triggered()), this, SLOT(undo()));
-     connect(actEditarRehacer_, SIGNAL(triggered()), this, SLOT(redo()));
+     connect(actEditarCortar_, SIGNAL(triggered()), txtEditor_, SLOT(cut()));
+     connect(actEditarDeshacer_, SIGNAL(triggered()), txtEditor_, SLOT(undo()));
+     connect(actEditarRehacer_, SIGNAL(triggered()), txtEditor_, SLOT(redo()));
      connect(actArchivoSalir_, SIGNAL(triggered()), this, SLOT (salir()));
      connect(actAyuda_, SIGNAL(triggered()), this, SLOT(ayuda()));
      connect(actBold_,SIGNAL(triggered()),this,SLOT(negrita()));
@@ -196,8 +198,8 @@ void NotepadWindow::alFuente()
 void NotepadWindow::ayuda()
 {
 
-    messAyuda_->information(this,"texto","Super Editor de Texto");
-
+    messAyuda_->information(this,"Acerca De","Super Editor de Texto");
+    messAyuda_->addButton("Contacto",QMessageBox::AcceptRole);
 }
 
 void NotepadWindow::salir(){
@@ -218,6 +220,7 @@ void NotepadWindow::salir(){
     });
 
     adv->open();
+
 }
 
 void NotepadWindow::negrita()

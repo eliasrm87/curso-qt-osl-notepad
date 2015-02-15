@@ -16,7 +16,10 @@
 #include <QToolBar>
 #include <QWidget>
 #include <QDialogButtonBox>
-#include <QColor>
+#include <QtWebKit/QWebElement>
+#include <QtWebKit/QtWebKit>
+#include <QtWebKitWidgets/QWebPage>
+
 
 class NotepadWindow : public QMainWindow
 {

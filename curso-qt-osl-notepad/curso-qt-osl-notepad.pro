@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui webkit webkitwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,3 +18,5 @@ SOURCES += main.cpp\
 HEADERS  += notepadwindow.h
 
 CONFIG += c++11
+
+RC_ICONS = icono.ico
