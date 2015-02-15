@@ -240,6 +240,39 @@ void NotepadWindow::negrita()
 
 }
 
+void NotepadWindow::cursiva()
+{
+
+    QTextCharFormat fmt;
+    QTextCursor cursor = txtEditor_->textCursor();
+
+      if (!cursor.hasSelection())
+          cursor.select(QTextCursor::WordUnderCursor);
+
+      if( cursor.charFormat().fontItalic() == QFont::Cursive)
+          fmt.setFontItalic(QFont::Normal);
+      else
+          fmt.setFontItalic(QFont::Cursive);
+      cursor.mergeCharFormat( fmt );
+}
+
+void NotepadWindow::subrayar(){
+
+    QTextCharFormat fmt;
+    QTextCursor cursor = txtEditor_->textCursor();
+
+    if(!cursor.hasSelection())
+        cursor.select(QTextCursor::WordUnderCursor);
+
+    if(!cursor.charFormat().fontUnderline() == QFont::UnderlineResolved)
+        fmt.setFontUnderline(QFont::Normal);
+
+    else
+        fmt.setFontUnderline(QFont::UnderlineResolved);
+
+        cursor.mergeCharFormat(fmt);
+
+}
 
 
 //txtEditor_->font() nos devuelve la fuente que hay ahora mismo en el txtEditor_

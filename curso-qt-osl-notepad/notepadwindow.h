@@ -35,8 +35,8 @@ private slots:
     void ayuda();
     void salir();
     void negrita();
-//    void cursiva();
-//    void subrayar();
+    void cursiva();
+    void subrayar();
 
 
 private:
