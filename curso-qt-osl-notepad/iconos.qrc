@@ -10,5 +10,10 @@
         <file>resource/guardar.ico</file>
         <file>resource/pegar.ico</file>
         <file>resource/siguiente.ico</file>
+        <file>resource/Cursiva.png</file>
+        <file>resource/Negrita.png</file>
+        <file>resource/Subrayado.png</file>
+        <file>resource/aumentar_zoom.png</file>
+        <file>resource/disminuir_zoom.png</file>
     </qresource>
 </RCC>
