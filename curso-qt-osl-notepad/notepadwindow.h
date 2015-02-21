@@ -14,11 +14,7 @@
 #include <QKeySequence> //Atajos de teclado
 #include <QMessageBox>
 #include <QToolBar>
-#include <QWidget>
-#include <QDialogButtonBox>
-#include <QtWebKit/QWebElement>
-#include <QtWebKit/QtWebKit>
-#include <QtWebKitWidgets/QWebPage>
+
 
 
 class NotepadWindow : public QMainWindow
@@ -30,12 +26,14 @@ public:
     NotepadWindow(QWidget *parent = 0);
     ~NotepadWindow();
 
+
+
 private slots:
 
+    void ayuda();
     void alAbrir();
     void alGuardar();
     void alFuente();
-    void ayuda();
     void salir();
     void negrita();
     void cursiva();
@@ -43,7 +41,6 @@ private slots:
 
 
 private:
-
 
 
     QMenuBar*       mainMenu_; //Menu principal
@@ -72,6 +69,16 @@ private:
     QAction*        actBold_;
     QAction*        actItalics_;
     QAction*        actUnderline_;
+
+    QAction*        alinear_dcha_;
+    QAction*        alinear_izq_;
+    QAction*        alinear_cent_;
+    QAction*        justificar_;
+
+//    QPrinter*       impresora_;
+//    QMenu*          mnImprimir_;
+//    QAction*        print_color_;
+//    QAction*        print_BW_;
 
  };
 

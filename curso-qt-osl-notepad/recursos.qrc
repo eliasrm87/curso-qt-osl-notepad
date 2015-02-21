@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>Iconos/centrado.png</file>
+        <file>Iconos/copy.png</file>
+        <file>Iconos/cut.png</file>
+        <file>Iconos/derecha.png</file>
+        <file>Iconos/izquierda.png</file>
+        <file>Iconos/justificado.png</file>
+        <file>Iconos/paste.png</file>
+        <file>Iconos/redo.png</file>
+        <file>Iconos/undo.png</file>
+    </qresource>
+</RCC>
