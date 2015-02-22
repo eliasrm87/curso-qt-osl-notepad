@@ -17,7 +17,6 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     mainMenu_ = new QMenuBar(this);
     funciones_ = new QToolBar(this);
 
-
     mnuArchivo_ = new QMenu(tr("&Archivo"), this); //Archivo y el padre que es el mismo
     mainMenu_->addMenu(mnuArchivo_); //Añadimos un menú
 
@@ -74,8 +73,8 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     actArchivoSalir_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F4));
     mnuArchivo_->addAction(actArchivoSalir_);
 
-    messAyuda_ = new QMessageBox(this); //Nueva ventana
-    actAyuda_ = new QAction(tr("&Ayuda"),this);
+
+    actAyuda_ = new QAction(tr("&Acerca de"),this);
     actAyuda_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_H));
     actAyuda_->setIcon(QIcon(QPixmap(":/icons/Iconos/info28.png")));
     mainMenu_->addAction(actAyuda_);
@@ -117,6 +116,8 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     funciones_->addAction(alinear_izq_);
     funciones_->addAction(alinear_cent_);
     funciones_->addAction(justificar_);
+    funciones_->addAction(actAyuda_);
+
 
     //Agregamos la barra de menú a la ventana
     this->setMenuBar(mainMenu_);
@@ -134,25 +135,18 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     connect(actEditarPegar_,    SIGNAL(triggered()), txtEditor_,    SLOT(paste()));
     connect(actFormatoFuente_,  SIGNAL(triggered()), this,          SLOT(alFuente()));
 
- //--------------------------------------------------------------------------------
+    connect(actEditarCortar_, SIGNAL(triggered()), txtEditor_, SLOT(cut()));
+    connect(actEditarDeshacer_, SIGNAL(triggered()), txtEditor_, SLOT(undo()));
+    connect(actEditarRehacer_, SIGNAL(triggered()), txtEditor_, SLOT(redo()));
+    connect(actArchivoSalir_, SIGNAL(triggered()), this, SLOT (salir()));
+    connect(actBold_,SIGNAL(triggered()),this,SLOT(negrita()));
+    connect(actItalics_,SIGNAL(triggered()),this,SLOT(cursiva()));
+    connect(actUnderline_,SIGNAL(triggered()),this,SLOT(subrayar()));
 
-     connect(actEditarCortar_, SIGNAL(triggered()), txtEditor_, SLOT(cut()));
-     connect(actEditarDeshacer_, SIGNAL(triggered()), txtEditor_, SLOT(undo()));
-     connect(actEditarRehacer_, SIGNAL(triggered()), txtEditor_, SLOT(redo()));
-     connect(actArchivoSalir_, SIGNAL(triggered()), this, SLOT (salir()));
-     connect(actBold_,SIGNAL(triggered()),this,SLOT(negrita()));
-     connect(actItalics_,SIGNAL(triggered()),this,SLOT(cursiva()));
-     connect(actUnderline_,SIGNAL(triggered()),this,SLOT(subrayar()));
-
-     connect(actAyuda_, &QAction::triggered, [&](){
-
-         messAyuda_->information(this,"Acerca de","Editor de Texto");
-
-
-       });
+    connect(actAyuda_, SIGNAL(triggered()),this, SLOT (ayuda()));
 
      //Conectamos las opciones de justificado con SLOTS LAMBDA
-     connect(alinear_cent_, &QAction::triggered, [&](){
+    connect(alinear_cent_, &QAction::triggered, [&](){
 
          QTextCursor cursor = txtEditor_->textCursor();
          QTextBlockFormat textBlockFormat = cursor.blockFormat();
@@ -162,7 +156,7 @@ NotepadWindow::NotepadWindow(QWidget *parent)
 
      });
 
-     connect(alinear_dcha_, &QAction::triggered, [&](){
+    connect(alinear_dcha_, &QAction::triggered, [&](){
 
          QTextCursor cursor = txtEditor_->textCursor();
          QTextBlockFormat textBlockFormat = cursor.blockFormat();
@@ -172,7 +166,7 @@ NotepadWindow::NotepadWindow(QWidget *parent)
 
      });
 
-     connect(alinear_izq_, &QAction::triggered, [&](){
+    connect(alinear_izq_, &QAction::triggered, [&](){
 
          QTextCursor cursor = txtEditor_->textCursor();
          QTextBlockFormat textBlockFormat = cursor.blockFormat();
@@ -183,7 +177,7 @@ NotepadWindow::NotepadWindow(QWidget *parent)
      });
 
 
-     connect(justificar_, &QAction::triggered, [&](){
+    connect(justificar_, &QAction::triggered, [&](){
 
          QTextCursor cursor = txtEditor_->textCursor();
          QTextBlockFormat textBlockFormat = cursor.blockFormat();
@@ -227,12 +221,23 @@ NotepadWindow::~NotepadWindow()
     alinear_izq_->deleteLater();
     messAyuda_->deleteLater();
 
-//    print_BW_->deleteLater();
-//    print_color_->deleteLater();
-//    mnImprimir_->deleteLater();
-
 
 }
+
+void NotepadWindow::ayuda(){
+
+
+  int ret = QMessageBox::warning(this, tr("Acerca de"),tr("Super Editor de Texto v1.0"), QMessageBox::Help | QMessageBox::Cancel);
+
+  switch (ret) {
+
+  case QMessageBox::Help : nueva_.showMaximized (); break;
+
+  default: break;
+  }
+
+}
+
 
 void NotepadWindow::alAbrir()
 {

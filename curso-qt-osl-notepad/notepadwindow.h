@@ -14,9 +14,8 @@
 #include <QKeySequence> //Atajos de teclado
 #include <QMessageBox>
 #include <QToolBar>
-
 #include <QThread>
-
+#include "ventana_buscador.hpp"
 
 class NotepadWindow : public QMainWindow
 {
@@ -31,6 +30,7 @@ public:
 
 private slots:
 
+    void ayuda();
     void alAbrir();
     void alGuardar();
     void alFuente();
@@ -42,6 +42,7 @@ private slots:
 
 private:
 
+    ventana_buscador   nueva_;
 
     QMenuBar*       mainMenu_; //Menu principal
     QMenu*          mnuArchivo_;
