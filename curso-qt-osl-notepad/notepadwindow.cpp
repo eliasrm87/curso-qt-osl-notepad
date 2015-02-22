@@ -1,5 +1,9 @@
 #include "notepadwindow.h"
-#include <QPushButton>
+
+#include <QWebView>
+
+
+
 NotepadWindow::NotepadWindow(QWidget *parent)
     : QMainWindow(parent) //Invocamos al constructor padre
 {
@@ -23,6 +27,7 @@ NotepadWindow::NotepadWindow(QWidget *parent)
 
     actArchivoGuardar_ = new QAction(tr("&Guardar"), this);
     actArchivoGuardar_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S)); //Establecer el acceso directo de teclado
+    actArchivoGuardar_->setIcon (QIcon(QPixmap(":/icons/Iconos/save.png")));
     mnuArchivo_->addAction(actArchivoGuardar_); //Añadimos la funcion al menu
 
     mnuEditar_ = new QMenu(tr("&Editar"), this);
@@ -30,11 +35,13 @@ NotepadWindow::NotepadWindow(QWidget *parent)
 
     actEditarCopiar_ = new QAction(tr("&Copiar"), this);
     actEditarCopiar_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_C));
+    actEditarCopiar_->setIcon (QIcon(QPixmap(":/icons/Iconos/copy.png")));
     mnuEditar_->addAction(actEditarCopiar_);
     funciones_->addAction(actEditarCopiar_);
 
     actEditarPegar_ = new QAction(tr("&Pegar"), this);
     actEditarPegar_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_V));
+    actEditarPegar_->setIcon(QIcon(QPixmap(":/icons/Iconos/paste.png")));
     mnuEditar_->addAction(actEditarPegar_);
     funciones_->addAction(actEditarPegar_);
 
@@ -42,22 +49,24 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     mainMenu_->addMenu(mnuFormato_);
 
     actFormatoFuente_ = new QAction(tr("&Fuente"), this);
+    actFormatoFuente_->setIcon(QIcon(QPixmap(":/icons/Iconos/fuente.png")));
     mnuFormato_->addAction(actFormatoFuente_);
-
-//-------------------------------------------------------------------
 
     actEditarCortar_ = new QAction(tr("&Cortar"),this);
     actEditarCortar_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_X));
+    actEditarCortar_->setIcon (QIcon(QPixmap(":/icons/Iconos/cut.png")));
     mnuEditar_->addAction(actEditarCortar_);
     funciones_->addAction(actEditarCortar_);
 
     actEditarDeshacer_ = new QAction(tr("&Deshacer"),this);
     actEditarDeshacer_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Z));
+    actEditarDeshacer_->setIcon(QIcon(QPixmap(":/icons/Iconos/undo.png")));
     mnuEditar_->addAction(actEditarDeshacer_);
     funciones_->addAction(actEditarDeshacer_);
 
     actEditarRehacer_ = new QAction(tr("&Rehacer"),this);
     actEditarRehacer_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Y));
+    actEditarRehacer_->setIcon(QIcon(QPixmap(":/icons/Iconos/redo.png")));
     mnuEditar_->addAction(actEditarRehacer_);
     funciones_->addAction(actEditarRehacer_);
 
@@ -68,40 +77,40 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     messAyuda_ = new QMessageBox(this); //Nueva ventana
     actAyuda_ = new QAction(tr("&Ayuda"),this);
     actAyuda_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_H));
+    actAyuda_->setIcon(QIcon(QPixmap(":/icons/Iconos/info28.png")));
     mainMenu_->addAction(actAyuda_);
 
     actBold_ = new QAction(tr("&Negrita"),this);
     actBold_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_B));
+    actBold_->setIcon(QIcon(QPixmap(":/icons/Iconos/bold17.png")));
     mnuFormato_->addAction(actBold_);
+
     actItalics_ = new QAction(tr("&Cursiva"),this);
     actItalics_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_I));
+    actItalics_->setIcon(QIcon(QPixmap(":/icons/Iconos/italic8.png")));
     mnuFormato_->addAction(actItalics_);
+
     actUnderline_ = new QAction(tr("&Subrayado"),this);
     actUnderline_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
+    actUnderline_->setIcon(QIcon(QPixmap(":/icons/Iconos/underlined4.png")));
     mnuFormato_->addAction(actUnderline_);
 
     alinear_dcha_ = new QAction(tr("Alinear Derecha"),this);
-    alinear_dcha_->setIcon(QIcon(QPixmap(":/icons/derecha.png")));
+    alinear_dcha_->setIcon(QIcon(QPixmap(":/icons/Iconos/derecha.png")));
     mnuFormato_->addAction(alinear_dcha_);
 
     alinear_izq_ = new QAction(tr("Alinear Izquierda"),this);
-    alinear_izq_->setIcon(QIcon(QPixmap("/icons/izquierda.png")));
+    alinear_izq_->setIcon(QIcon(QPixmap(":/icons/Iconos/izquierda.png")));
     mnuFormato_->addAction(alinear_izq_);
 
     alinear_cent_ = new QAction(tr("Centrar"),this);
-    alinear_cent_->setIcon(QIcon(QPixmap(":/icons/centrado.png")));
+    alinear_cent_->setIcon(QIcon(QPixmap(":/icons/Iconos/centrado.png")));
     mnuFormato_->addAction(alinear_cent_);
 
     justificar_ = new QAction(tr("Justificar"),this);
-    justificar_->setIcon(QIcon(QPixmap(":/icons/justificado.png")));
+    justificar_->setIcon(QIcon(QPixmap(":/icons/Iconos/justificado.png")));
     mnuFormato_->addAction(justificar_);
 
-//    impresora_ = new QPrinter(this);
-//    mnImprimir_ = new QMenu(tr("Imprimir"),this);
-//    print_BW_ = new QAction(tr("B & W"),this);
-//    print_color_ = new QAction(tr("Color"),this);
-//    mnImprimir_->addAction(print_BW_);
-//    mnImprimir_->addAction(print_color_);
 
     //Añadimos las opciones de justificado en la barra de tareas
     funciones_->addAction(alinear_dcha_);
@@ -113,9 +122,10 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     this->setMenuBar(mainMenu_);
     this->addToolBar(funciones_);
     //Inicializamos el editor de texto
+
     txtEditor_ = new QTextEdit(this);
     txtEditor_->setAcceptRichText(true);
-    txtEditor_->setGeometry(30,30,640,240);
+
 
     //Conectamos las acciones de los menús con nuestros slots
     connect(actArchivoAbrir_,   SIGNAL(triggered()), this,          SLOT(alAbrir()));
@@ -130,13 +140,16 @@ NotepadWindow::NotepadWindow(QWidget *parent)
      connect(actEditarDeshacer_, SIGNAL(triggered()), txtEditor_, SLOT(undo()));
      connect(actEditarRehacer_, SIGNAL(triggered()), txtEditor_, SLOT(redo()));
      connect(actArchivoSalir_, SIGNAL(triggered()), this, SLOT (salir()));
-     connect(actAyuda_, SIGNAL(triggered()), this, SLOT(ayuda()));
      connect(actBold_,SIGNAL(triggered()),this,SLOT(negrita()));
      connect(actItalics_,SIGNAL(triggered()),this,SLOT(cursiva()));
      connect(actUnderline_,SIGNAL(triggered()),this,SLOT(subrayar()));
 
-    //triggered (señal que emite cuando es pulsada)
+     connect(actAyuda_, &QAction::triggered, [&](){
 
+         messAyuda_->information(this,"Acerca de","Editor de Texto");
+
+
+       });
 
      //Conectamos las opciones de justificado con SLOTS LAMBDA
      connect(alinear_cent_, &QAction::triggered, [&](){
@@ -183,8 +196,9 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     //Agregamos el editor de texto a la ventana
     this->setCentralWidget(txtEditor_); //En esta ventana el widget central es el txtEditor
 
-
 }
+
+
 
 NotepadWindow::~NotepadWindow()
 {
@@ -275,14 +289,6 @@ void NotepadWindow::alFuente()
         // Si el usuario hizo click en OK, se establece la fuente seleccionada
         txtEditor_->setFont(font); //cambiamos la fuente
     }
-}
-
-void NotepadWindow::ayuda()
-{
-
-   messAyuda_->information(this,"Acerca de","Editor de Texto");
-
-
 }
 
 void NotepadWindow::salir(){

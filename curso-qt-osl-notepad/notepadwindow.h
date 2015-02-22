@@ -15,6 +15,7 @@
 #include <QMessageBox>
 #include <QToolBar>
 
+#include <QThread>
 
 
 class NotepadWindow : public QMainWindow
@@ -30,7 +31,6 @@ public:
 
 private slots:
 
-    void ayuda();
     void alAbrir();
     void alGuardar();
     void alFuente();
@@ -75,10 +75,6 @@ private:
     QAction*        alinear_cent_;
     QAction*        justificar_;
 
-//    QPrinter*       impresora_;
-//    QMenu*          mnImprimir_;
-//    QAction*        print_color_;
-//    QAction*        print_BW_;
 
  };
 
