@@ -29,6 +29,9 @@ private slots:
     void alGuardar();
     void alFuente();
     void alAcercade();
+    void alCursiva();
+    void alNegrita();
+    void alSubrayado();
 
 private:
     QMenuBar*       mainMenu_;
@@ -38,6 +41,9 @@ private:
     QAction*        actArchivoSalir_;
     QMenu*          mnuFormato_;
     QAction*        actFormatoFuente_;
+    QAction*        actFormatoNegrita_;
+    QAction*        actFormatoCursiva_;
+    QAction*        actFormatoSubrayado_;
     QMenu*          mnuEditar_;
     QAction*        actEditarCopiar_;
     QAction*        actEditarCortar_;

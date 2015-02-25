@@ -66,6 +66,18 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     actFormatoFuente_->setIcon(QIcon(":/iconos/iconos/fuente.png"));
     mnuFormato_->addAction(actFormatoFuente_);
 
+    actFormatoNegrita_ = new QAction(tr("&Negrita"), this);
+    actFormatoNegrita_->setIcon(QIcon(":/iconos/iconos/bold.png"));
+    mnuFormato_->addAction(actFormatoNegrita_);
+
+    actFormatoCursiva_ = new QAction(tr("&Cursiva"), this);
+    actFormatoCursiva_->setIcon(QIcon(":/iconos/iconos/italic.png"));
+    mnuFormato_->addAction(actFormatoCursiva_);
+
+    actFormatoSubrayado_ = new QAction(tr("&Subrayado"), this);
+    actFormatoSubrayado_->setIcon(QIcon(":/iconos/iconos/underline.png"));
+    mnuFormato_->addAction(actFormatoSubrayado_);
+
     mnuAyuda_ = new QMenu(tr("&Ayuda"), this);
     mainMenu_->addMenu(mnuAyuda_);
 
@@ -90,6 +102,10 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     toolbar_->addAction(actEditarDeshacer_);
     toolbar_->addAction(actEditarRehacer_);
     toolbar_->addAction(actAyudaAcercade_);
+    toolbar_->addAction(actFormatoNegrita_);
+    toolbar_->addAction(actFormatoCursiva_);
+    toolbar_->addAction(actFormatoSubrayado_);
+
 
     //Inicializamos el editor de texto
     txtEditor_ = new QTextEdit(this);
@@ -105,6 +121,9 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     connect(actEditarRehacer_,  SIGNAL(triggered()), txtEditor_,    SLOT(redo()));
     connect(actFormatoFuente_,  SIGNAL(triggered()), this,          SLOT(alFuente()));
     connect(actAyudaAcercade_,  SIGNAL(triggered()), this,          SLOT(alAcercade()));
+    connect(actFormatoCursiva_, SIGNAL(triggered()), this,          SLOT(alCursiva()));
+    connect(actFormatoNegrita_, SIGNAL(triggered()), this,          SLOT(alNegrita()));
+    connect(actFormatoSubrayado_,SIGNAL(triggered()),this,          SLOT(alSubrayado()));
 
     //Agregamos el editor de texto a la ventana
     this->setCentralWidget(txtEditor_);
@@ -128,6 +147,9 @@ NotepadWindow::~NotepadWindow()
     actArchivoSalir_->deleteLater();
     mnuAyuda_->deleteLater();
     actAyudaAcercade_->deleteLater();
+    actFormatoSubrayado_->deleteLater();
+    actFormatoCursiva_->deleteLater();
+    actFormatoNegrita_->deleteLater();
 }
 
 void NotepadWindow::alAbrir()
@@ -135,16 +157,16 @@ void NotepadWindow::alAbrir()
     //Mostramos un dialogo de apertura de ficheros y almacenamos la selección (ruta) en una variable
     QString nombreArchivo;
     nombreArchivo = QFileDialog::getOpenFileName(this,
-                                                 tr("Abrir archivo de texto plano"),
+                                                 tr("Abrir archivo de texto enriquecido"),
                                                  "",
-                                                 tr("Archivos de texto plano (*.txt)"));
+                                                 tr("Archivos de texto enriquecido (*.html *.txt *.rtf)"));
     if (nombreArchivo != "") {
         //Intentamos abrir el archivo
         QFile archivo;
         archivo.setFileName(nombreArchivo);
         if (archivo.open(QFile::ReadOnly)) {
             //Si se pudo abrir el archivo, lo leemos y colocamos su contenido en nuestro editor
-            txtEditor_->setPlainText(archivo.readAll());
+            txtEditor_->setHtml(archivo.readAll());
             //Se cierra el fichero
             archivo.close();
         }
@@ -162,14 +184,10 @@ void NotepadWindow::alGuardar()
     if (nombreArchivo != "") {
         //Intentamos abrir el archivo
         QFile archivo;
-        if (!nombreArchivo.endsWith(".txt")){
-            //archivo.setFileName(nombreArchivo + ".txt");
-            nombreArchivo += ".txt";
-        }
         archivo.setFileName(nombreArchivo);
         if (archivo.open(QFile::WriteOnly | QFile::Truncate)) {
             //Si se pudo abrir el archivo, escribimos el contenido del editor
-            archivo.write(txtEditor_->toPlainText().toUtf8());
+            archivo.write(txtEditor_->toHtml().toUtf8());
             //Se cierra el fichero
             archivo.close();
         }
@@ -182,8 +200,40 @@ void NotepadWindow::alFuente()
     QFont font = QFontDialog::getFont(&ok, txtEditor_->font(), this);
     if (ok) {
         // Si el usuario hizo click en OK, se establece la fuente seleccionada
-        txtEditor_->setFont(font);
+        //txtEditor_->setFont(font);
+
+        QTextCursor cursor = txtEditor_->textCursor();
+        QTextCharFormat format = cursor.charFormat();
+        format.setFont(font);
+        cursor.setCharFormat(format);
     }
+}
+
+void NotepadWindow::alCursiva(){
+    QFont font = txtEditor_->font();
+    QTextCursor cursor = txtEditor_->textCursor();
+    QTextCharFormat format = cursor.charFormat();
+    format.setFont(font);
+    format.setFontItalic(true);
+    cursor.setCharFormat(format);
+}
+
+void NotepadWindow::alNegrita(){
+    QFont font = txtEditor_->font();
+    QTextCursor cursor = txtEditor_->textCursor();
+    QTextCharFormat format = cursor.charFormat();
+    format.setFont(font);
+    format.setFontWeight(QFont::Bold);
+    cursor.setCharFormat(format);
+}
+
+void NotepadWindow::alSubrayado(){
+    QFont font = txtEditor_->font();
+    QTextCursor cursor = txtEditor_->textCursor();
+    QTextCharFormat format = cursor.charFormat();
+    format.setFont(font);
+    format.setFontUnderline(true);
+    cursor.setCharFormat(format);
 }
 
 void NotepadWindow::alAcercade()

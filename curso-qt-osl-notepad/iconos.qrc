@@ -10,5 +10,8 @@
         <file>iconos/paste.png</file>
         <file>iconos/about.png</file>
         <file>iconos/fuente.png</file>
+        <file>iconos/bold.png</file>
+        <file>iconos/underline.png</file>
+        <file>iconos/italic.png</file>
     </qresource>
 </RCC>
