@@ -6,7 +6,7 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
-#include <QPlainTextEdit> // Si queremos dar controlador de sintaxis , hay que usar TextEdit.
+#include <QTextEdit> // Si queremos dar controlador de sintaxis , hay que usar TextEdit.
 #include <QFileDialog> // Ventana para nombrar, elegir .
 #include <QFile> // Abrir ficheros, leerlos y escribirlos.
 #include <QFontDialog>
@@ -14,6 +14,9 @@
 #include <QKeySequence> // Accesos directos.
 #include <QToolBar>
 #include <QMessageBox>
+#include <QDebug>
+#include <QFont>
+#include <QJsonDocument>
 
 class NotepadWindow : public QMainWindow
 {
@@ -28,6 +31,9 @@ private slots:
     void alGuardar();
     void alFuente();
     void acerca();
+    void textBold();
+    void textItalic();
+    void textUnderline();
 
 private:   // Todos son punteros porque
     QMenuBar*       mainMenu_;
@@ -43,12 +49,14 @@ private:   // Todos son punteros porque
     QAction*        actEditarCortar_;
     QAction*        actEditarDeshacer_;
     QAction*        actEditarRehacer_;
-    QPlainTextEdit* txtEditor_;
-    QClipboard *    portapapeles_;
+    QTextEdit*      txtEditor_;
+    QClipboard*     portapapeles_;
     QToolBar*       toolbar_;
     QMenu*          mnuAyuda_;
     QAction*        actAyudaAcerca_;
-
+    QAction*        actBold_;
+    QAction*        actItalic_;
+    QAction*        actUnderline_;
 };
 
 #endif // NOTEPADWINDOW_H

@@ -3,6 +3,7 @@
 NotepadWindow::NotepadWindow(QWidget *parent)
     : QMainWindow(parent) // Porque hereda de QMainWindow
 {
+
     //Establecemos el tamaño inicial de la ventana
     this->setGeometry(30, 30, 800, 600); // (x,y,ancho,alto)
 
@@ -51,6 +52,17 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     actEditarRehacer_->setShortcut((QKeySequence(Qt::CTRL + Qt::ALT + Qt::Key_Z)));
     mnuEditar_->addAction(actEditarRehacer_);
 
+    // Edición de fuente
+    actBold_ = new QAction(tr("&Negrita"),this);
+    actBold_->setShortcut((QKeySequence(Qt::CTRL + Qt::Key_N)));
+
+    actUnderline_ = new QAction(tr("&Subrayar"),this);
+    actUnderline_->setShortcut((QKeySequence(Qt::CTRL + Qt::Key_U)));
+
+    actItalic_ = new QAction(tr("&Cursiva"),this);
+    actItalic_->setShortcut((QKeySequence(Qt::CTRL + Qt::Key_I)));
+    /////
+
     mnuFormato_ = new QMenu(tr("&Formato"), this);
     mainMenu_->addMenu(mnuFormato_);
 
@@ -63,6 +75,10 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     toolbar_->addAction(actEditarCortar_);
     toolbar_->addAction(actEditarDeshacer_);
     toolbar_->addAction(actEditarRehacer_);
+    toolbar_->addSeparator();
+    toolbar_->addAction(actBold_);
+    toolbar_->addAction(actItalic_);
+    toolbar_->addAction(actUnderline_);
     addToolBar(toolbar_);
 
     actAyudaAcerca_ = new QAction(tr("&Acerca"),this);
@@ -80,7 +96,7 @@ NotepadWindow::NotepadWindow(QWidget *parent)
 
 
     //Inicializamos el editor de texto
-    txtEditor_ = new QPlainTextEdit(this);
+    txtEditor_ = new QTextEdit(this);
 
     //Conectamos las acciones de los menús con nuestros slots
     connect(actArchivoAbrir_,   SIGNAL(triggered()), this,          SLOT(alAbrir()));
@@ -93,6 +109,10 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     connect(actEditarRehacer_,  SIGNAL(triggered()), txtEditor_,    SLOT(redo()));
     connect(actFormatoFuente_,  SIGNAL(triggered()), this,          SLOT(alFuente()));
     connect(actAyudaAcerca_,    SIGNAL(triggered()), this,          SLOT(acerca()));
+    connect(actBold_,           SIGNAL(triggered()), this,          SLOT(textBold()));
+    connect(actItalic_,         SIGNAL(triggered()), this,          SLOT(textItalic()));
+    connect(actUnderline_,      SIGNAL(triggered()), this,          SLOT(textUnderline()));
+
 
     //Agregamos el editor de texto a la ventana
     this->setCentralWidget(txtEditor_);
@@ -118,6 +138,9 @@ NotepadWindow::~NotepadWindow()
     toolbar_->deleteLater();
     mnuAyuda_->deleteLater();
     actAyudaAcerca_->deleteLater();
+    actBold_->deleteLater();
+    actItalic_->deleteLater();
+    actUnderline_->deleteLater();
 }
 
 void NotepadWindow::acerca()
@@ -127,6 +150,36 @@ void NotepadWindow::acerca()
     msgBox.setStandardButtons(QMessageBox::Close | QMessageBox::Cancel);
     msgBox.exec();
 
+}
+
+void NotepadWindow::textBold()
+{
+    QFont* mifuente = new QFont ();
+    if(txtEditor_->currentFont().bold())
+        mifuente->setBold(false);
+    else
+        mifuente->setBold(true);
+    txtEditor_->setCurrentFont(*mifuente);
+}
+
+void NotepadWindow::textItalic()
+{
+    QFont* mifuente = new QFont ();
+    if(txtEditor_->currentFont().italic())
+        mifuente->setItalic(false);
+    else
+        mifuente->setItalic(true);
+    txtEditor_->setCurrentFont(*mifuente);
+}
+
+void NotepadWindow::textUnderline()
+{
+    QFont* mifuente = new QFont ();
+    if(txtEditor_->currentFont().underline())
+        mifuente->setUnderline(false);
+    else
+        mifuente->setUnderline(true);
+    txtEditor_->setCurrentFont(*mifuente);
 }
 
 void NotepadWindow::alAbrir()
