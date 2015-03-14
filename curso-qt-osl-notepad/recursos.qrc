@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>Iconos/centrado.png</file>
+        <file>Iconos/copy.png</file>
+        <file>Iconos/cut.png</file>
+        <file>Iconos/derecha.png</file>
+        <file>Iconos/izquierda.png</file>
+        <file>Iconos/justificado.png</file>
+        <file>Iconos/paste.png</file>
+        <file>Iconos/redo.png</file>
+        <file>Iconos/undo.png</file>
+        <file>Iconos/underlined4.png</file>
+        <file>Iconos/save.png</file>
+        <file>Iconos/italic8.png</file>
+        <file>Iconos/info28.png</file>
+        <file>Iconos/fuente.png</file>
+        <file>Iconos/bold17.png</file>
+        <file>Iconos/1424646457_notes_ios7_ios_7.png</file>
+    </qresource>
+</RCC>

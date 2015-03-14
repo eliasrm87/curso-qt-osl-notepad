@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core webkitwidgets
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,6 +14,17 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        notepadwindow.cpp
+        notepadwindow.cpp \
+    ventana_buscador.cpp
 
-HEADERS  += notepadwindow.h
+HEADERS  += notepadwindow.h \
+    ventana_buscador.hpp
+
+CONFIG += c++11
+
+RC_ICONS = icono.ico
+RESOURCES += \
+    recursos.qrc
+
+FORMS += \
+    ventana_buscador.ui
