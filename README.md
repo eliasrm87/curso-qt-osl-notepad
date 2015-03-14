@@ -1,3 +1,7 @@
+< Programa realizado por Adrián Rodríguez Bazaga >
+< E-mail: adrian@scitex.eu						 >
+
+
 Curso de QT - OSL
 ====
 
@@ -33,12 +37,12 @@ Tareas propuestas para realizar en clase
 Tras terminar con la implementación guiada del editor propuesto, procederemos a realizar las siguientes tareas:
 
 * Agregar las siguientes opciones en el menú:
- * Archivo/Salir
- * Editar/Cortar
- * Editar/Deshacer
- * Editar/Rehacer
- * Ayuda/Acerca de
-* Añadir una barra de herramientas (toolbar) con las funciones principales del menú
+ * Archivo/Salir (Done)
+ * Editar/Cortar (Done)
+ * Editar/Deshacer (Done)
+ * Editar/Rehacer (Done)
+ * Ayuda/Acerca de (Done)
+* Añadir una barra de herramientas (toolbar) con las funciones principales del menú (Done)
 
 Entrega
 ----
@@ -47,12 +51,12 @@ Todo el trabajo realizado en clase y/o en casa, debe ser subido a [GitHub] y, pa
 
 Para subir nota, proponemos las siguientes tareas para casa:
 
-* Cambiar el QPlainTextEdit por un QTextEdit que permita formato enriquecido (HTML, por ejemplo)
+* Cambiar el QPlainTextEdit por un QTextEdit que permita formato enriquecido (HTML, por ejemplo) (Done)
 * Añadir a la barra de herramientas al menos las opciones:
- * Negrita
- * Cursiva
- * Subrayado
-* Modificar el comportamiento del dialogo de formato de fuente para que afecte solo a la selección
+ * Negrita (Done)
+ * Cursiva (Done)
+ * Subrayado (Done)
+* Modificar el comportamiento del dialogo de formato de fuente para que afecte solo a la selección (Done)
 
 *Nota: Se valorará el simple hecho de haberlo intentado, no tiene que ser todo perfecto, lo importante es que aprendas a "buscarte la vida" con la documentación de QT al tiempo que practicas el desarrollo con este framework.* 
 

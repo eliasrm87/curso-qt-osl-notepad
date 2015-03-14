@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2014-02-05T10:52:41
+# Project created by QtCreator 2014-02-08T09:57:30
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = curso-qt-osl-notepad.exe
+TARGET = Qt-notepad-exe
 TEMPLATE = app
 
 
