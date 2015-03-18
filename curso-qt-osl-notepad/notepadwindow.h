@@ -12,6 +12,9 @@
 #include <QFontDialog>
 #include <QClipboard>
 #include <QKeySequence>
+#include <QMessageBox>
+#include <QToolBar>
+#include <QTextEdit>
 
 class NotepadWindow : public QMainWindow
 {
@@ -25,19 +28,41 @@ private slots:
     void alAbrir();
     void alGuardar();
     void alFuente();
+    void alAbout();
+    void alSalir();
+    void Negrita();
+    void Cursiva();
+    void Subrayado();
+    void Aumentar_Zoom();
+    void Disminuir_Zoom();
 
 private:
     QMenuBar*       mainMenu_;
     QMenu*          mnuArchivo_;
+    QMenu*          mnuFormato_;
+    QMenu*          mnuEditar_;
+    QMenu*          mnuHelp_;
+
     QAction*        actArchivoAbrir_;
     QAction*        actArchivoGuardar_;
-    QMenu*          mnuFormato_;
     QAction*        actFormatoFuente_;
-    QMenu*          mnuEditar_;
+    QAction*        actAbout_;
+    QAction*        actSalir_;
     QAction*        actEditarCopiar_;
     QAction*        actEditarPegar_;
-    QPlainTextEdit* txtEditor_;
+    QAction*        actEditarDeshacer_;
+    QAction*        actEditarRehacer_;
+    QAction*        actFormatoNegrita_;
+    QAction*        actFormatoCursiva_;
+    QAction*        actFormatoSubrayado_;
+    QAction*        actEditarTodo_;
+    QAction*        actEditarMenosZoom_;
+    QAction*        actEditarMasZoom_;
+    QTextEdit*      txtEditor_; //cambiado de texto plano anterior
     QClipboard *    portapapeles_;
+    QToolBar*       mainToolbar_;
+
+
 
 };
 
