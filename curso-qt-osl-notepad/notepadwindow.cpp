@@ -130,11 +130,6 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     actEditarMasZoom_->setIcon(QIcon(":/actions/resource/aumentar_zoom.png"));
     actEditarMenosZoom_->setIcon(QIcon(":/actions/resource/disminuir_zoom.png"));
 
-    /*actArchivoAbrir_->setIconVisibleInMenu(true);
-    actArchivoGuardar_->setIconVisibleInMenu(false);
-    actEditarDeshacer_->setIconVisibleInMenu(false);*/
-
-
     //añadiendo lo que se va a mostrar
     mainToolbar_->addAction(actArchivoAbrir_);
     mainToolbar_->addAction(actArchivoGuardar_);
@@ -202,9 +197,10 @@ void NotepadWindow::alGuardar()
     if (nombreArchivo != "") {
         //Intentamos abrir el archivo
         QFile archivo;
-        if(!nombreArchivo.endsWith(".txt")){
+        /*if(!nombreArchivo.endsWith(".txt")){
           nombreArchivo += ".txt";
-        }
+        }*/
+        archivo.setFileName(nombreArchivo + ".txt");
         if (archivo.open(QFile::WriteOnly | QFile::Truncate)) {
             //Si se pudo abrir el archivo, escribimos el contenido del editor
             archivo.write(txtEditor_->toPlainText().toUtf8());
