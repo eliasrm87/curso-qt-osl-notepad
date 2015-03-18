@@ -4,7 +4,7 @@ Curso de QT - OSL
 Primer proyecto - Bloc de notas
 ----
 
-![Mostrar_Ejemplo](/ejemplo.jpg)
+![Mostrar_Ejemplo](/ejemplo.png)
 
 
 Modus operandi
