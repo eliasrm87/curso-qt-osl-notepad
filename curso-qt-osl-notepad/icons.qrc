@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/actions/toolbar">
+        <file>tijeras.png</file>
+    </qresource>
+</RCC>
