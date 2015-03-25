@@ -7,7 +7,7 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     this->setGeometry(30, 30, 800, 600);
 
     //Establecemos el título de la ventana
-    this->setWindowTitle(tr("Super editor de texto"));
+    this->setWindowTitle(tr("Super editor de texto")); //funcion tr: traducción de texo(usa el idioma del SO).
 
     //Inicializamos los menús
     mainMenu_ = new QMenuBar(this);
@@ -23,6 +23,10 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     actArchivoGuardar_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
     mnuArchivo_->addAction(actArchivoGuardar_);
 
+    //Añadido por mi.
+    actArchivoSalir_ = new QAction(tr("&Salir"), this);
+    mnuArchivo_->addAction(actArchivoSalir_);
+
     mnuEditar_ = new QMenu(tr("&Editar"), this);
     mainMenu_->addMenu(mnuEditar_);
 
@@ -34,12 +38,40 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     actEditarPegar_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_V));
     mnuEditar_->addAction(actEditarPegar_);
 
+    //Añadido por mi.
+    actEditarCortar_ = new QAction(tr("&Cortar"),this);
+    actEditarCortar_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_X));
+    mnuEditar_->addAction(actEditarCortar_);
+
+    //Añadido por mi.
+    actEditarDeshacer_ = new QAction(tr("&Deshacer"),this);
+    actEditarDeshacer_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Z));
+    mnuEditar_->addAction(actEditarDeshacer_);
+
+    //Añadido por mi.
+    actEditarRehacer_ = new QAction(tr("&Rehacer"),this);
+    actEditarRehacer_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Y));
+    mnuEditar_->addAction(actEditarRehacer_);
+
     mnuFormato_ = new QMenu(tr("&Formato"), this);
     mainMenu_->addMenu(mnuFormato_);
 
     actFormatoFuente_ = new QAction(tr("&Fuente"), this);
     mnuFormato_->addAction(actFormatoFuente_);
 
+    //Añadido por mi.
+    mnuAyuda_ = new QMenu(tr("&Ayuda"),this);
+    mainMenu_->addMenu(mnuAyuda_);
+
+    actAcercaDe_ = new QAction(tr("&Acerca de"),this);
+    mnuAyuda_->addAction(actAcercaDe_);
+
+    mnuToolBar_ = new QToolBar(this);
+    mnuToolBar_->addAction(actArchivoAbrir_);
+    mnuToolBar_->addAction(actArchivoGuardar_);
+    mnuToolBar_->addAction(actEditarCopiar_);
+    mnuToolBar_->addAction(actEditarPegar_);
+    addToolBar(mnuToolBar_);
     //Agregamos la barra de menú a la ventana
     this->setMenuBar(mainMenu_);
 
@@ -51,7 +83,12 @@ NotepadWindow::NotepadWindow(QWidget *parent)
     connect(actArchivoGuardar_, SIGNAL(triggered()), this,          SLOT(alGuardar()));
     connect(actEditarCopiar_,   SIGNAL(triggered()), txtEditor_,    SLOT(copy()));
     connect(actEditarPegar_,    SIGNAL(triggered()), txtEditor_,    SLOT(paste()));
+    connect(actEditarCortar_,   SIGNAL(triggered()), txtEditor_,    SLOT(cut()));
     connect(actFormatoFuente_,  SIGNAL(triggered()), this,          SLOT(alFuente()));
+    connect(actArchivoSalir_,   SIGNAL(triggered()), this,          SLOT(alSalir()));
+    connect(actEditarDeshacer_, SIGNAL(triggered()), txtEditor_,    SLOT(undo()));
+    connect(actEditarRehacer_,  SIGNAL(triggered()), txtEditor_,    SLOT(redo()));
+    connect(actAcercaDe_,       SIGNAL(triggered()), this,          SLOT(alAcercaDe()));
 
     //Agregamos el editor de texto a la ventana
     this->setCentralWidget(txtEditor_);
@@ -70,6 +107,14 @@ NotepadWindow::~NotepadWindow()
     actFormatoFuente_->deleteLater();
     mnuFormato_->deleteLater();
     txtEditor_->deleteLater();
+    //Hecho por mi
+    actEditarCortar_->deleteLater();
+    actArchivoSalir_->deleteLater();
+    actEditarDeshacer_->deleteLater();
+    actEditarRehacer_->deleteLater();
+    mnuAyuda_->deleteLater();
+    actAcercaDe_->deleteLater();
+    mnuToolBar_->deleteLater();
 }
 
 void NotepadWindow::alAbrir()
@@ -104,6 +149,9 @@ void NotepadWindow::alGuardar()
     if (nombreArchivo != "") {
         //Intentamos abrir el archivo
         QFile archivo;
+        if(!nombreArchivo.endsWith(".txt")){
+            nombreArchivo += ".txt";
+        }
         archivo.setFileName(nombreArchivo + ".txt");
         if (archivo.open(QFile::WriteOnly | QFile::Truncate)) {
             //Si se pudo abrir el archivo, escribimos el contenido del editor
@@ -123,3 +171,17 @@ void NotepadWindow::alFuente()
         txtEditor_->setFont(font);
     }
 }
+
+void NotepadWindow::alSalir(){
+    close();
+}
+
+void NotepadWindow::alAcercaDe(){
+    QMessageBox msgBox;
+    msgBox.setText("Notepad hecho en QT.");
+    msgBox.exec();
+}
+
+
+
+
