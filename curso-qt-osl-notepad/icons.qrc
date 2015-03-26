@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icons/actions">
+        <file>resources/icons/editredo.png</file>
+        <file>resources/icons/editundo.png</file>
+        <file>resources/icons/fileopen.png</file>
+        <file>resources/icons/filesave.png</file>
+    </qresource>
+</RCC>
